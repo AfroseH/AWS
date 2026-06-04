@@ -10,7 +10,7 @@ In this lab, we create an EFS file system and mount it on two Apache web servers
 
 ## Architecture
 
-![Architecture](demo-efs.png)
+![Architecture](architecture.png)
 
 ### Components
 

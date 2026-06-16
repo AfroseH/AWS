@@ -10,7 +10,7 @@ In this lab, we create an S3 bucket, upload website files, configure a bucket po
 
 ## Architecture
 
-![S3 Bucket](S3-bucket.png)
+![S3 Bucket](Architecture_diagram.png)
 
 ### Components
 

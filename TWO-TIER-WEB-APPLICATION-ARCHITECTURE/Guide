@@ -1,1 +1,51 @@
+#install maridb
+sudo dnf install mariadb105 -y
 
+#connect to DB
+mysql -h database-1.chc0kue2aqcx.us-east-1.rds.amazonaws.com -u admin -p
+
+#verify databases
+show databases;
+
+#to switch to a specific databases
+use students;
+
+#verify the tables with database
+show tables;
+
+exit;
+
+#install apache & php softwares
+sudo dnf install -y httpd php php-mysqli 
+
+#Start and Enable Service
+sudo systemctl start httpd
+sudo systemctl enable httpd
+
+#change ownership
+sudo chown -R ec2-user /var/www/html
+
+#place website
+cd /var/www/html
+
+nano index.php
+<copy and paste the php code>
+ctrl + s & ctrl +x
+
+nano dbinfo.inc
+<copy and paste the variables>
+
+#connect to DB
+mysql -h <endpoint> -u admin -p
+
+#verify databases
+show databases;
+
+#to switch to a specific databases
+use <dbname>;
+
+#verify the tables with database
+show tables;
+
+#Verify data
+select * from TERRAFORM;

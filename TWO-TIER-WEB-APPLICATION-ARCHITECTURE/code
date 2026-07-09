@@ -1,1 +1,342 @@
+<?php include "./dbinfo.inc"; ?>
 
+<?php
+/* Connect to MySQL */
+$connection = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD);
+
+if (mysqli_connect_errno()) {
+    die("Database Connection Failed: " . mysqli_connect_error());
+}
+
+mysqli_select_db($connection, DB_DATABASE);
+
+VerifyTerraformTable($connection, DB_DATABASE);
+
+/* Insert Data */
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $terraform_name = htmlentities($_POST['NAME']);
+    $terraform_address = htmlentities($_POST['ADDRESS']);
+
+    if (!empty($terraform_name) && !empty($terraform_address)) {
+        AddTerraform($connection, $terraform_name, $terraform_address);
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Terraform Students Database</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Tahoma,Geneva,Verdana,sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#00c6ff,#0072ff);
+    min-height:100vh;
+    padding:40px;
+}
+
+.container{
+
+    width:90%;
+    max-width:1100px;
+    margin:auto;
+    background:white;
+    border-radius:15px;
+    padding:30px;
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
+
+}
+
+.header{
+
+    background:linear-gradient(90deg,#6a11cb,#2575fc);
+    color:white;
+    padding:25px;
+    text-align:center;
+    border-radius:10px;
+    margin-bottom:30px;
+
+}
+
+.header h1{
+    font-size:38px;
+}
+
+.header p{
+    margin-top:10px;
+    font-size:18px;
+}
+
+.form-box{
+
+    background:#f4f8ff;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:30px;
+
+}
+
+input[type=text]{
+
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:16px;
+
+}
+
+table.form-table{
+    width:100%;
+}
+
+table.form-table td{
+    padding:10px;
+}
+
+button{
+
+    background:#2575fc;
+    color:white;
+    border:none;
+    padding:13px 25px;
+    border-radius:8px;
+    font-size:17px;
+    cursor:pointer;
+    transition:.3s;
+
+}
+
+button:hover{
+
+    background:#6a11cb;
+    transform:scale(1.05);
+
+}
+
+.data-table{
+
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+
+}
+
+.data-table th{
+
+    background:#2575fc;
+    color:white;
+    padding:15px;
+
+}
+
+.data-table td{
+
+    padding:12px;
+    border-bottom:1px solid #ddd;
+
+}
+
+.data-table tr:nth-child(even){
+    background:#f9f9f9;
+}
+
+.data-table tr:hover{
+
+    background:#dbe8ff;
+
+}
+
+.footer{
+
+    text-align:center;
+    margin-top:30px;
+    color:#666;
+    font-size:14px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<h1>🎓 Terraform Class Students</h1>
+
+<p>AWS EC2 + PHP + RDS MySQL Demo</p>
+
+</div>
+
+<div class="form-box">
+
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+
+<table class="form-table">
+
+<tr>
+
+<td width="30%">
+<label><b>Student Name</b></label>
+</td>
+
+<td>
+<input type="text" name="NAME" placeholder="Enter Student Name" required>
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+<label><b>Student Address</b></label>
+</td>
+
+<td>
+<input type="text" name="ADDRESS" placeholder="Enter Student Address" required>
+</td>
+
+</tr>
+
+<tr>
+
+<td></td>
+
+<td>
+
+<button type="submit">
+➕ Add Student
+</button>
+
+</td>
+
+</tr>
+
+</table>
+
+</form>
+
+</div>
+
+<h2 style="color:#2575fc;margin-bottom:15px;">
+📋 Student Records
+</h2>
+
+<table class="data-table">
+
+<tr>
+
+<th>ID</th>
+<th>Student Name</th>
+<th>Address</th>
+
+</tr>
+
+<?php
+
+$result = mysqli_query($connection,"SELECT * FROM TERRAFORM");
+
+while($row=mysqli_fetch_assoc($result))
+{
+
+echo "<tr>";
+
+echo "<td>".$row['ID']."</td>";
+
+echo "<td>".$row['NAME']."</td>";
+
+echo "<td>".$row['ADDRESS']."</td>";
+
+echo "</tr>";
+
+}
+
+?>
+
+</table>
+
+<div class="footer">
+
+AWS Lab 35 • EC2 + Apache + PHP + Amazon RDS MySQL
+
+</div>
+
+</div>
+
+</body>
+
+</html>
+
+<?php
+
+mysqli_free_result($result);
+mysqli_close($connection);
+
+/* Add Student */
+function AddTerraform($connection,$name,$address){
+
+$n=mysqli_real_escape_string($connection,$name);
+$a=mysqli_real_escape_string($connection,$address);
+
+$query="INSERT INTO TERRAFORM(NAME,ADDRESS)
+VALUES('$n','$a')";
+
+mysqli_query($connection,$query);
+
+}
+
+/* Create Table */
+
+function VerifyTerraformTable($connection,$dbName){
+
+if(!TableExists("TERRAFORM",$connection,$dbName))
+{
+
+$query="CREATE TABLE TERRAFORM(
+
+ID INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+NAME VARCHAR(45),
+
+ADDRESS VARCHAR(90)
+
+)";
+
+mysqli_query($connection,$query);
+
+}
+
+}
+
+function TableExists($tableName,$connection,$dbName){
+
+$t=mysqli_real_escape_string($connection,$tableName);
+$d=mysqli_real_escape_string($connection,$dbName);
+
+$checktable=mysqli_query($connection,
+
+"SELECT TABLE_NAME
+FROM information_schema.TABLES
+WHERE TABLE_NAME='$t'
+AND TABLE_SCHEMA='$d'");
+
+return mysqli_num_rows($checktable)>0;
+
+}
+
+?>

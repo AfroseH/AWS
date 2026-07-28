@@ -80,7 +80,7 @@ The requests are automatically distributed between the two EC2 instances running
 
 🎥 **Load Balancer Demonstration**
 
-https://github.com/your-username/your-repository/blob/main/Load%20balancer/Loadbalancer.mp4
+[https://github.com/AfroseH/AWS/blob/main/Load%20balancer/Loadbalancer.mp4]
 
 
 ![Web Server - AZ1](webpage-1a.png)

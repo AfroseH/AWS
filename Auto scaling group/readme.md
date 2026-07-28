@@ -10,7 +10,7 @@ In this lab, we create a Launch Template, configure an Auto Scaling Group, attac
 
 ## Architecture
 
-![Architecture](Architecture-diagram.png)
+![Architecture](architecture%20(2).png)
 
 ### Components
 
@@ -30,12 +30,6 @@ In this lab, we create a Launch Template, configure an Auto Scaling Group, attac
 Navigate to **EC2 → Launch Templates** and create a new Launch Template.
 
 Configure:
-
-- Amazon Linux AMI
-- Instance Type: `t2.micro`
-- Existing Key Pair
-- Existing Security Group
-- Apache Web Server installation using User Data
 
 The Launch Template defines the configuration used whenever Auto Scaling launches a new EC2 instance.
 
@@ -92,7 +86,7 @@ After the Auto Scaling Group is created, verify that the desired number of EC2 i
 
 If an instance becomes unhealthy or demand changes, Auto Scaling automatically launches or terminates instances to maintain the configured capacity.
 
-![Auto Scaled Instances](autoscaled-instance.png)
+![Running Instances](instances.png)
 
 ---
 
@@ -100,7 +94,7 @@ If an instance becomes unhealthy or demand changes, Auto Scaling automatically l
 
 Navigate to the EC2 Console and verify that the Auto Scaling Group has successfully launched the required EC2 instances.
 
-![Running Instances](instances.png)
+![Auto Scaled Instances](autoscaled-instance.png)
 
 ---
 

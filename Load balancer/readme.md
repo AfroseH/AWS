@@ -32,10 +32,6 @@ Launch two Amazon EC2 instances in separate public subnets.
 
 Configure Apache Web Server using EC2 User Data so that each instance hosts a simple web page.
 
-![Web Server - AZ1](webpage-1a.png)
-
-![Web Server - AZ2](webpage-1b.png)
-
 ---
 
 ## Step 2: Create a Target Group
@@ -86,7 +82,10 @@ The requests are automatically distributed between the two EC2 instances running
 
 https://github.com/your-username/your-repository/blob/main/Load%20balancer/Loadbalancer.mp4
 
-> Replace the above URL with your actual GitHub repository link.
+
+![Web Server - AZ1](webpage-1a.png)
+
+![Web Server - AZ2](webpage-1b.png)
 
 ---
 

@@ -10,7 +10,7 @@ In this lab, we create a CloudWatch Log Group, configure the required IAM Policy
 
 ## Architecture
 
-![Architecture](Architecture-diagram.png)
+![Architecture](architecture.png)
 
 ### Components
 
